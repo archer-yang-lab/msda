@@ -1,17 +1,20 @@
-msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvars,1e-2,1e-4), lambda = NULL, dfmax = nobs, 
-    pmax = min(dfmax * 1.2, nvars), pf = rep(1, nvars), eps = 1e-4, maxit = 1e+6, sml = 1e-4, verbose = FALSE, perturb = NULL) {
+msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <= 
+    nvars, 0.01, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 
+    1.2, nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-04, 
+    verbose = FALSE, perturb = NULL) {
     ## data setup
     this.call <- match.call()
     tmp <- msda.prep(x, y)
     sigma_old <- as.matrix(tmp$sigma)
-	sigma <- sigma_old
-	if(!is.null(perturb)) diag(sigma) <- diag(sigma) + perturb
+    sigma <- sigma_old
+    if (!is.null(perturb)) 
+        diag(sigma) <- diag(sigma) + perturb
     delta <- as.matrix(tmp$delta)
     mu <- as.matrix(tmp$mu)
     prior <- tmp$prior
     nobs <- as.integer(dim(x)[1])
     nvars <- as.integer(dim(x)[2])
-	nclass <- as.integer(length(unique(y)))
+    nclass <- as.integer(length(unique(y)))
     vnames <- colnames(x)
     if (is.null(vnames)) 
         vnames <- paste("V", seq(nvars), sep = "")
@@ -21,7 +24,7 @@ msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvar
         stop("The size of penalty factor must be same as the number of input variables")
     maxit <- as.integer(maxit)
     verbose <- as.integer(verbose)
- 	sml <- as.double(sml)
+    sml <- as.double(sml)
     pf <- as.double(pf)
     eps <- as.double(eps)
     dfmax <- as.integer(dfmax)
@@ -42,16 +45,16 @@ msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvar
         nlam <- as.integer(length(lambda))
     }
     ## call Fortran core
-    fit <- .Fortran("msda", nk, nvars, as.double(sigma), as.double(delta), pf, dfmax, pmax, nlam, 
-        flmin, ulam, eps, maxit, sml, verbose, nalam = integer(1), theta = double(pmax * nk * nlam), itheta = integer(pmax), 
-        ntheta = integer(nlam), alam = double(nlam), npass = integer(1), jerr = integer(1))
+    fit <- .Fortran("msda", nk, nvars, as.double(sigma), as.double(delta), 
+        pf, dfmax, pmax, nlam, flmin, ulam, eps, maxit, sml, verbose, nalam = integer(1), 
+        theta = double(pmax * nk * nlam), itheta = integer(pmax), ntheta = integer(nlam), 
+        alam = double(nlam), npass = integer(1), jerr = integer(1))
     ## output
     outlist <- formatoutput(fit, maxit, pmax, nvars, vnames, nk)
     outlist <- c(outlist, list(npasses = fit$npass, jerr = fit$jerr, sigma = sigma, 
-				sigma_old = sigma_old, delta = delta, mu = mu, prior = prior, 
-				call = this.call))
+        sigma_old = sigma_old, delta = delta, mu = mu, prior = prior, call = this.call))
     if (is.null(lambda)) 
         outlist$lambda <- lamfix(outlist$lambda)
     class(outlist) <- c("msda")
     outlist
-} 
+}

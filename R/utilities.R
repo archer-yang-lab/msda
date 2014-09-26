@@ -52,10 +52,12 @@ formatoutput <- function(fit, maxit, pmax, nvars, vnames, nk) {
         pos <- rep(1:nalam, each = nk * pmax)
         theta <- split(fit$theta[seq(nk * pmax * nalam)], pos)
         for (l in 1:nalam) {
-            theta[[l]] <- matrix(theta[[l]], pmax, nk, byrow = TRUE)[seq(nthetamax), , drop = FALSE]
+            theta[[l]] <- matrix(theta[[l]], pmax, nk, byrow = TRUE)[seq(nthetamax), 
+                , drop = FALSE]
             df[l] <- sum(apply(theta[[l]], 1, sum) != 0)
-            theta[[l]] <- new("dgCMatrix", Dim = dd, Dimnames = list(vnames, resnames), x = as.vector(theta[[l]][oja, 
-                ]), p = as.integer(itheta - 1), i = as.integer(ja - 1))
+            theta[[l]] <- new("dgCMatrix", Dim = dd, Dimnames = list(vnames, 
+                resnames), x = as.vector(theta[[l]][oja, ]), p = as.integer(itheta - 
+                1), i = as.integer(ja - 1))
         }
     } else {
         theta <- list()
@@ -74,7 +76,7 @@ msda.prep <- function(x, y) {
     x <- as.matrix(x)
     y <- drop(y)
     nclass <- as.integer(length(unique(y)))
-	prior<-rep(0,nclass)
+    prior <- rep(0, nclass)
     for (k in 1:nclass) {
         prior[k] <- mean(y == k)
     }
@@ -124,11 +126,13 @@ err <- function(n, maxit, pmax) {
     if (n < 0) {
         # non fatal error
         if (n > -10000) 
-            msg <- paste("Convergence for ", -n, "th lambda value not reached after maxit=", maxit, 
-                " iterations; solutions for larger lambdas returned", sep = "")
+            msg <- paste("Convergence for ", -n, "th lambda value not reached after maxit=", 
+                maxit, " iterations; solutions for larger lambdas returned", 
+                sep = "")
         if (n < -10000) 
-            msg <- paste("Number of nonzero coefficients along the path exceeds pmax=", pmax, " at ", 
-                -n - 10000, "th lambda value; solutions for larger lambdas returned", sep = "")
+            msg <- paste("Number of nonzero coefficients along the path exceeds pmax=", 
+                pmax, " at ", -n - 10000, "th lambda value; solutions for larger lambdas returned", 
+                sep = "")
         n <- -1
         msg <- paste("from the fortran code -", msg)
     }
@@ -140,12 +144,12 @@ zeromat <- function(nvars, nalam, vnames, stepnames) {
     ia <- seq(nalam + 1)
     ja <- rep(1, nalam)
     dd <- c(nvars, nalam)
-    new("dgCMatrix", Dim = dd, Dimnames = list(vnames, stepnames), x = as.vector(ca), p = as.integer(ia - 
-        1), i = as.integer(ja - 1))
+    new("dgCMatrix", Dim = dd, Dimnames = list(vnames, stepnames), x = as.vector(ca), 
+        p = as.integer(ia - 1), i = as.integer(ja - 1))
 }
 
 lamfix <- function(lam) {
     llam <- log(lam)
     lam[1] <- exp(2 * llam[2] - llam[3])
     lam
-} 
+}

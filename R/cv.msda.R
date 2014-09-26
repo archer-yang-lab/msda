@@ -37,4 +37,4 @@ cv.msda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
     obj <- list(lambda = lambda, cv = cv, cv.error = cv.error, bestlambda = bestlambda)
     class(obj) <- "cv.msda"
     obj
-} 
+}
