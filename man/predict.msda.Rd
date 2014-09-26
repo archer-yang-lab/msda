@@ -7,7 +7,7 @@ make predictions from a "msda" object.
 
 }
 \usage{
-(x, mu, theta, prior)
+\method{predict}{msda}(x, mu, theta, prior)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

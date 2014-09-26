@@ -1,120 +1,43 @@
-# the main function#
-msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <= #
-    nvars, 0.01, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax * #
-    1.2, nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-04, #
-    verbose = FALSE, perturb = NULL) {#
-    ## data setup#
-    this.call <- match.call()#
-    tmp <- msda.prep(x, y)#
-    sigma_old <- as.matrix(tmp$sigma)#
-    sigma <- sigma_old#
-    if (!is.null(perturb)) #
-        diag(sigma) <- diag(sigma) + perturb#
-    delta <- as.matrix(tmp$delta)#
-    mu <- as.matrix(tmp$mu)#
-    prior <- tmp$prior#
-    nobs <- as.integer(dim(x)[1])#
-    nvars <- as.integer(dim(x)[2])#
-    nclass <- as.integer(length(unique(y)))#
-    vnames <- colnames(x)#
-    if (is.null(vnames)) #
-        vnames <- paste("V", seq(nvars), sep = "")#
-    nk <- as.integer(dim(delta)[1])#
-    ## parameter setup#
-    if (length(pf) != nvars) #
-        stop("The size of penalty factor must be same as the number of input variables")#
-    maxit <- as.integer(maxit)#
-    verbose <- as.integer(verbose)#
-    sml <- as.double(sml)#
-    pf <- as.double(pf)#
-    eps <- as.double(eps)#
-    dfmax <- as.integer(dfmax)#
-    pmax <- as.integer(pmax)#
-    ## lambda setup#
-    nlam <- as.integer(nlambda)#
-    if (missing(lambda)) {#
-        if (lambda.factor >= 1) #
-            stop("lambda.factor should be less than 1")#
-        flmin <- as.double(lambda.factor)#
-        ulam <- double(1)  #ulam=0 if lambda is missing#
-    } else {#
-        # flmin=1 if user define lambda#
-        flmin <- as.double(1)#
-        if (any(lambda < 0)) #
-            stop("lambdas should be non-negative")#
-        ulam <- as.double(rev(sort(lambda)))  #lambda is declining#
-        nlam <- as.integer(length(lambda))#
-    }#
-    ## call Fortran core#
-    fit <- .Fortran("msda", nk, nvars, as.double(sigma), as.double(delta), #
-        pf, dfmax, pmax, nlam, flmin, ulam, eps, maxit, sml, verbose, nalam = integer(1), #
-        theta = double(pmax * nk * nlam), itheta = integer(pmax), ntheta = integer(nlam), #
-        alam = double(nlam), npass = integer(1), jerr = integer(1))#
-    ## output#
-    outlist <- formatoutput(fit, maxit, pmax, nvars, vnames, nk)#
-    outlist <- c(outlist, list(npasses = fit$npass, jerr = fit$jerr, sigma = sigma, #
-        sigma_old = sigma_old, delta = delta, mu = mu, prior = prior, call = this.call))#
-    if (is.null(lambda)) #
-        outlist$lambda <- lamfix(outlist$lambda)#
-    class(outlist) <- c("msda")#
-    outlist#
-}
-prompt(msda, filename = "msda.Rd", name = NULL, ...)
-prompt(msda, filename = "msda.Rd", name = NULL)
-# cross validation#
-cv.msda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {#
-    y <- drop(y)#
-    n <- nrow(x)#
-    p <- ncol(x)#
-    ### Fit the model once to get dimensions etc of output#
-    tmp <- msda(x, y)#
-    prior <- tmp$prior#
-    lambda <- tmp$lambda#
-    nlambda <- length(lambda)#
-    ### Now fit the nfold models and store them#
-    foldid <- sample(rep(seq(nfolds), length = n))#
-    if (nfolds < 3) #
-        stop("nfolds must be bigger than 3; nfolds=10 recommended")#
-    if (nfolds > n) #
-        stop("The number of folds should be smaller than the sample size.")#
-    residmat <- matrix(0, nlambda, nfolds)#
-    for (i in seq(nfolds)) {#
-        which <- foldid == i#
-        fit <- msda(x[!which, , drop = FALSE], y[!which], lambda = lambda)#
-        mu <- fit$mu#
-        theta <- list2array(fit$theta)#
-        pred <- predict.msda(x[which, ], mu, theta, prior)#
-        for (l in 1:nlambda) {#
-            residmat[l, i] <- mean(y[which] != pred[, l])#
-        }#
-    }#
-    residmat[is.na(residmat)] <- 0.5#
-    residmat <- matrix(residmat, nrow = nlambda)#
-    cv <- apply(residmat, 1, mean)#
-    cv.error <- sqrt(apply(residmat, 1, var)/K)#
-    if (lambda.opt == "min") {#
-        bestlambda <- max(lambda[which(cv == min(cv))])#
-    } else {#
-        bestlambda <- max(lambda[which(cv == min(cv))])#
-    }#
-    obj <- list(lambda = lambda, cv = cv, cv.error = cv.error, bestlambda = bestlambda)#
-    class(obj) <- "cv.msda"#
-    obj#
-}
-prompt(cv.msda, filename = "cv.msda.Rd", name = NULL)
-# predict routine#
-predict.msda <- function(x, mu, theta, prior) {#
-    mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2#
-    n <- nrow(x)#
-    nclass <- length(prior)#
-    nlambda <- dim(theta)[3]#
-    score <- array(0, dim = c(n, nclass, nlambda))#
-    for (k in 2:nclass) {#
-        score[, k, ] <- sweep(x, 1, mubar[, k - 1], "-") %*% theta[k - #
-            1, , ] + log(prior[k]) - log(prior[1])#
-    }#
-    pred <- apply(score, c(1, 3), which.max)#
-    pred#
-}
+setwd('/Users/emeryyi/Dropbox/Research/googleproject/expectile')
+library(msda)#
+#
+## generate data#
+n <- 100#
+p <- 1000#
+s <- 3#
+K <- 3#
+#
+prior <- rep(1/K, K)#
+#
+rho <- 0.5#
+sigma <- matrix(rho, p, p)#
+diag(sigma) <- 1#
+sigma.eigen <- eigen(sigma)#
+sigma.sqrt <- sigma.eigen$vectors %*% diag(sqrt(sigma.eigen$values)) %*% t(sigma.eigen$vectors)#
+#
+beta <- matrix(0, p, K)#
+for (i in 1:K) {#
+    beta[1:s, i] <- i#
+}#
+mu <- sigma %*% beta#
+#
+set.seed(1)#
+y <- runif(n)#
+prior.cum <- cumsum(prior)#
+for (i in 1:n) {#
+    y[i] <- sum(y[i] < prior.cum)#
+}#
+#
+set.seed(1)#
+x <- matrix(rnorm(n * p), n, p)#
+x <- x %*% sigma.sqrt#
+for (i in 1:K) {#
+    x[y == i, ] <- sweep(x[y == i, ], 2, mu[, i], "+")#
+}#
+# msda.prep(x,y)#
+pf <- rep(1, p)
 setwd('/Users/emeryyi/Dropbox/Research/googleproject/msda/R')
-prompt(predict.msda, filename = "predict.msda.Rd", name = NULL)
+x <- as.matrix(x)#
+    y <- drop(y)#
+    nclass <- as.integer(length(unique(y)))
+nclass

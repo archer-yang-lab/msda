@@ -7,7 +7,7 @@ Cross-validation for msda
 Does k-fold cross-validation for msda, returns a value for \code{lambda}.
 }
 \usage{
-(x, y, nfolds = 10, lambda.opt = "min", ...)
+cv.msda(x, y, nfolds = 10, lambda.opt = "min", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

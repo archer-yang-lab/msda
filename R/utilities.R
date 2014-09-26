@@ -92,7 +92,7 @@ msda.prep <- function(x, y) {
         mu[, i] <- apply(x[y == i, ], 2, mean)
         sigma <- sigma + (sum(y == i) - 1) * cov(x[y == i, ])
     }
-    sigma <- sigma/(n - nclass)
+    sigma <- sigma/(nobs - nclass)
     delta <- sweep(mu[, -1], 1, mu[, 1], "-")
     delta <- t(delta)
     outlist <- list(sigma = sigma, delta = delta, mu = mu, prior = prior)

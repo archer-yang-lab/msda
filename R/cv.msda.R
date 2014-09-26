@@ -1,6 +1,7 @@
 # cross validation
 cv.msda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
     y <- drop(y)
+    nclass <- as.integer(length(unique(y)))
     n <- nrow(x)
     p <- ncol(x)
     ### Fit the model once to get dimensions etc of output
@@ -28,7 +29,7 @@ cv.msda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
     residmat[is.na(residmat)] <- 0.5
     residmat <- matrix(residmat, nrow = nlambda)
     cv <- apply(residmat, 1, mean)
-    cv.error <- sqrt(apply(residmat, 1, var)/K)
+    cv.error <- sqrt(apply(residmat, 1, var)/nclass)
     if (lambda.opt == "min") {
         bestlambda <- max(lambda[which(cv == min(cv))])
     } else {
