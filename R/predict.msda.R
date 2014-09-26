@@ -1,14 +1,22 @@
-# predict routine
-predict.msda <- function(x, mu, theta, prior) {
-    mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2
-    n <- nrow(x)
-    nclass <- length(prior)
-    nlambda <- dim(theta)[3]
-    score <- array(0, dim = c(n, nclass, nlambda))
-    for (k in 2:nclass) {
-        score[, k, ] <- sweep(x, 1, mubar[, k - 1], "-") %*% theta[k - 
-            1, , ] + log(prior[k]) - log(prior[1])
-    }
-    pred <- apply(score, c(1, 3), which.max)
-    pred
-}
+predict1.mlda <- function(obj, x) {
+  theta<-obj$theta
+  mu<-obj$mu
+  prior<-obj$prior
+  mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2
+  n <- nrow(x)
+  p<-ncol(x)
+  x.train<-obj$x
+  y.train<-obj$y
+  nclass <- length(prior)
+  nlambda <- length(theta)
+  pred<-matrix(0,n,nlambda)
+  pred[1]<-which.max(prior)
+  for(i in 1:nlambda){
+    nz<-sum(theta[[i]][,1]!=0)
+    if(nz==0){pred[i]<-which.max(prior)}else{
+      xfit<-x.train%*%theta[[i]][,1:(min(nclass-1,nz))]
+      l<-lda(xfit,y.train)
+      pred[,i]<-predict(l,x%*%theta[[i]][,1:(min(nclass-1,nz))])$class}
+  }    
+  pred
+} 
