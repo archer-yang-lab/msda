@@ -69,7 +69,7 @@ formatoutput <- function(fit, maxit, pmax, nvars, vnames, nk) {
 
 
 # generate sigma, delta and mu from x, y
-mlda.prep <- function(x, y) {
+msda.prep <- function(x, y) {
     # data setup
     x <- as.matrix(x)
     y <- drop(y)

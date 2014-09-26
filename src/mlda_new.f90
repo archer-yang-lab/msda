@@ -1,5 +1,5 @@
 ! --------------------------------------------------
-SUBROUTINE mlda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
+SUBROUTINE msda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
 		eps,maxit,sml,verbose,nalam,theta,m,ntheta,alam,npass,jerr)
 ! --------------------------------------------------
 	IMPLICIT NONE
@@ -238,4 +238,4 @@ SUBROUTINE mlda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
 	    IF(me>dfmax) EXIT
 	ENDDO 
 	RETURN 
-END SUBROUTINE mlda
+END SUBROUTINE msda

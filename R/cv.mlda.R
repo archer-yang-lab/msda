@@ -1,10 +1,10 @@
 # cross validation
-cv.mlda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
+cv.msda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
     y <- drop(y)
     n <- nrow(x)
     p <- ncol(x)
     ### Fit the model once to get dimensions etc of output
-    tmp <- mlda(x, y)
+    tmp <- msda(x, y)
     prior <- tmp$prior
     lambda <- tmp$lambda
     nlambda <- length(lambda)
@@ -17,10 +17,10 @@ cv.mlda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
     residmat <- matrix(0, nlambda, nfolds)
     for (i in seq(nfolds)) {
         which <- foldid == i
-        fit <- mlda(x[!which, , drop = FALSE], y[!which], lambda = lambda)
+        fit <- msda(x[!which, , drop = FALSE], y[!which], lambda = lambda)
         mu <- fit$mu
         theta <- list2array(fit$theta)
-        pred <- predict.mlda(x[which, ], mu, theta, prior)
+        pred <- predict.msda(x[which, ], mu, theta, prior)
         for (l in 1:nlambda) {
             residmat[l, i] <- mean(y[which] != pred[, l])
         }
@@ -35,6 +35,6 @@ cv.mlda <- function(x, y, nfolds = 10, lambda.opt = "min", ...) {
         bestlambda <- max(lambda[which(cv == min(cv))])
     }
     obj <- list(lambda = lambda, cv = cv, cv.error = cv.error, bestlambda = bestlambda)
-    class(obj) <- "cv.mlda"
+    class(obj) <- "cv.msda"
     obj
 } 

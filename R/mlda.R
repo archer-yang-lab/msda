@@ -1,8 +1,8 @@
-mlda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvars,1e-2,1e-4), lambda = NULL, dfmax = nobs, 
+msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvars,1e-2,1e-4), lambda = NULL, dfmax = nobs, 
     pmax = min(dfmax * 1.2, nvars), pf = rep(1, nvars), eps = 1e-4, maxit = 1e+6, sml = 1e-4, verbose = FALSE, perturb = NULL) {
     ## data setup
     this.call <- match.call()
-    tmp <- mlda.prep(x, y)
+    tmp <- msda.prep(x, y)
     sigma_old <- as.matrix(tmp$sigma)
 	sigma <- sigma_old
 	if(!is.null(perturb)) diag(sigma) <- diag(sigma) + perturb
@@ -42,7 +42,7 @@ mlda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvar
         nlam <- as.integer(length(lambda))
     }
     ## call Fortran core
-    fit <- .Fortran("mlda", nk, nvars, as.double(sigma), as.double(delta), pf, dfmax, pmax, nlam, 
+    fit <- .Fortran("msda", nk, nvars, as.double(sigma), as.double(delta), pf, dfmax, pmax, nlam, 
         flmin, ulam, eps, maxit, sml, verbose, nalam = integer(1), theta = double(pmax * nk * nlam), itheta = integer(pmax), 
         ntheta = integer(nlam), alam = double(nlam), npass = integer(1), jerr = integer(1))
     ## output
@@ -52,6 +52,6 @@ mlda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs-nclass)<=nvar
 				call = this.call))
     if (is.null(lambda)) 
         outlist$lambda <- lamfix(outlist$lambda)
-    class(outlist) <- c("mlda")
+    class(outlist) <- c("msda")
     outlist
 } 

@@ -1,5 +1,5 @@
 # predict routine
-predict.mlda <- function(x, mu, theta, prior) {
+predict.msda <- function(x, mu, theta, prior) {
     mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2
     n <- nrow(x)
     nclass <- length(prior)
