@@ -1,11 +1,10 @@
-\name{}
-\alias{}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\name{predict.msda}
+\alias{predict.msda}
 \title{
-%%  ~~function to do ... ~~
+make predictions from a "msda" object.
 }
-\description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+\description{Similar to other predict methods, this functions predicts class labels from a fitted \code{\link{msda}} object.
+
 }
 \usage{
 (x, mu, theta, prior)
@@ -36,11 +35,14 @@
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+
+Mai, Q.*, Yang, Y.*, and Zou, H. (2014), "Multiclass Sparse Discriminant Analysis." Submitted to \emph{Journal of the American Statistical Association}. (* co-first author)
+
+URL: \url{https://github.com/emeryyi/msda}\cr
 }
 \author{
-%%  ~~who you are~~
-}
+Qing Mai <mai@stat.fsu.edu>, Yi Yang <yiyang@umn.edu>,  Hui Zou <hzou@stat.umn.edu>\cr
+Maintainer: Yi Yang  <yiyang@umn.edu>}
 \note{
 %%  ~~further notes~~
 }
@@ -55,23 +57,8 @@
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (x, mu, theta, prior) 
-{
-    mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2
-    n <- nrow(x)
-    nclass <- length(prior)
-    nlambda <- dim(theta)[3]
-    score <- array(0, dim = c(n, nclass, nlambda))
-    for (k in 2:nclass) {
-        score[, k, ] <- sweep(x, 1, mubar[, k - 1], "-") \%*\% 
-            theta[k - 1, , ] + log(prior[k]) - log(prior[1])
-    }
-    pred <- apply(score, c(1, 3), which.max)
-    pred
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{models}
+\keyword{classification}% __ONLY ONE__ keyword per line
