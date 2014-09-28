@@ -1,6 +1,6 @@
 useDynLib("msda")
 
-import("Matrix")
+import("Matrix", "MASS")
 
 export(msda, cv.msda)
 

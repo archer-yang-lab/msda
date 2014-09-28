@@ -1,4 +1,4 @@
-predict1.mlda <- function(obj, x) {
+predict.msda <- function(obj, x) {
   theta<-obj$theta
   mu<-obj$mu
   prior<-obj$prior

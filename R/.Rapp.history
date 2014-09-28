@@ -1,5 +1,9 @@
-setwd('/Users/emeryyi/Dropbox/Research/googleproject/expectile')
+predict.msda(obj, x)
+obj
+obj$x
 library(msda)#
+source("utilities.R", chdir = TRUE)#
+source("predict.msda.R", chdir = TRUE)#
 #
 ## generate data#
 n <- 100#
@@ -35,9 +39,34 @@ for (i in 1:K) {#
     x[y == i, ] <- sweep(x[y == i, ], 2, mu[, i], "+")#
 }#
 # msda.prep(x,y)#
-pf <- rep(1, p)
-setwd('/Users/emeryyi/Dropbox/Research/googleproject/msda/R')
-x <- as.matrix(x)#
-    y <- drop(y)#
-    nclass <- as.integer(length(unique(y)))
+pf <- rep(1, p)#
+#
+system.time(obj <- msda(x = x, y = y, eps = 1e-06, pf = pf, verbose=FALSE, sml = 1e-5))
+setwd('/Users/emeryyi/Desktop')
+predict(obj, x)
+theta<-obj$theta#
+  mu<-obj$mu#
+  prior<-obj$prior#
+  mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2#
+  n <- nrow(x)#
+  p<-ncol(x)#
+  x.train<-obj$x#
+  y.train<-obj$y
+nclass <- length(prior)#
+  nlambda <- length(theta)#
+  pred<-matrix(0,n,nlambda)#
+  pred[1]<-which.max(prior)
+i=1
+for(i in 1:nlambda){#
+    nz<-sum(theta[[i]][,1]!=0)#
+    if(nz==0){pred[i]<-which.max(prior)}else{#
+      xfit<-x.train%*%theta[[i]][,1:(min(nclass-1,nz))]#
+      l<-lda(xfit,y.train)#
+      pred[,i]<-predict(l,x%*%theta[[i]][,1:(min(nclass-1,nz))])$class}#
+  }
+nz
+nclass-1,nz
 nclass
+xfit<-x.train%*%theta[[i]][,1:(min(nclass-1,nz))]
+setwd('/Users/emeryyi/Dropbox/Research/googleproject/msda/R')
+theta[[i]]
