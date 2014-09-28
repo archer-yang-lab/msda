@@ -1,6 +1,6 @@
 # the main function
 msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <= 
-    nvars, 0.01, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 1.2, 
+    nvars, 0.05, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 1.2, 
 	nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-04, 
     verbose = FALSE, perturb = NULL) {
     ## data setup
@@ -31,7 +31,7 @@ msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <=
     pmax <- as.integer(pmax)
     ## lambda setup
     nlam <- as.integer(nlambda)
-    if (missing(lambda)) {
+    if (is.null(lambda)) {
         if (lambda.factor >= 1) 
             stop("lambda.factor should be less than 1")
         flmin <- as.double(lambda.factor)
