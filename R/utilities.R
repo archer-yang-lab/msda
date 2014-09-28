@@ -2,20 +2,20 @@
 kktchk <- function(obj, pf, thr) {
     lambda <- obj$lambda
     nk <- nrow(obj$delta)
-    nvars <- ncol(obj$sigma_old)
+    nvars <- ncol(obj$sigma)
     for (l in 1:length(lambda)) {
         cat("now checking lambda ", l, "\n")
         theta <- t(obj$theta[[l]])
         thetaInner <- apply(theta, 2, crossprod)
         thetaNorm <- sqrt(thetaInner)
         
-        sdiag <- diag(obj$sigma_old)
+        sdiag <- diag(obj$sigma)
         sjj <- t(replicate(nk, sdiag))
-        thetaTilda <- (obj$delta - theta %*% obj$sigma_old + sjj * theta)/sjj
+        thetaTilda <- (obj$delta - theta %*% obj$sigma + sjj * theta)/sjj
         thetaDif <- theta - thetaTilda
         
         for (j in 1:nvars) {
-            los <- lambda[l] * pf[j]/obj$sigma_old[j, j]
+            los <- lambda[l] * pf[j]/obj$sigma[j, j]
             if (thetaNorm[j] == 0) {
                 dif_norm <- sqrt(crossprod(thetaDif[, j]))
                 tmp <- dif_norm - los
@@ -54,7 +54,7 @@ formatoutput <- function(fit, maxit, pmax, nvars, vnames, nk) {
         for (l in 1:nalam) {
             theta[[l]] <- matrix(theta[[l]], pmax, nk, byrow = TRUE)[seq(nthetamax), 
                 , drop = FALSE]
-            df[l] <- sum(apply(theta[[l]], 1, sum) != 0)
+            df[l] <- sum(rowSums(abs(theta[[l]])) != 0)
             theta[[l]] <- new("dgCMatrix", Dim = dd, Dimnames = list(vnames, 
                 resnames), x = as.vector(theta[[l]][oja, ]), p = as.integer(itheta - 
                 1), i = as.integer(ja - 1))
@@ -134,7 +134,6 @@ err <- function(n, maxit, pmax) {
                 pmax, " at ", -n - 10000, "th lambda value; solutions for larger lambdas returned", 
                 sep = "")
         n <- -1
-        msg <- paste("from the fortran code -", msg)
     }
     list(n = n, msg = msg)
 }

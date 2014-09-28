@@ -1,12 +1,11 @@
 # the main function
 msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <= 
-    nvars, 0.01, 1e-04), lambda = NULL, dfmax = nobs+1, pmax = min(dfmax*2+20,nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-04, 
+    nvars, 0.01, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax*2+20,nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-04, 
     verbose = FALSE, perturb = NULL) {
     ## data setup
     this.call <- match.call()
     tmp <- msda.prep(x, y)
-    sigma_old <- as.matrix(tmp$sigma)
-    sigma <- sigma_old
+    sigma <- as.matrix(tmp$sigma)
     if (!is.null(perturb)) 
         diag(sigma) <- diag(sigma) + perturb
     delta <- as.matrix(tmp$delta)
@@ -51,8 +50,7 @@ msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <=
         alam = double(nlam), npass = integer(1), jerr = integer(1))
     ## output
     outlist <- formatoutput(fit, maxit, pmax, nvars, vnames, nk)
-    outlist <- c(outlist, list(x = x, y = y, npasses = fit$npass, jerr = fit$jerr, sigma = sigma, 
-        sigma_old = sigma_old, delta = delta, mu = mu, prior = prior, call = this.call))
+    outlist <- c(outlist, list(x = x, y = y, npasses = fit$npass, jerr = fit$jerr, sigma = sigma, delta = delta, mu = mu, prior = prior, call = this.call))
     if (is.null(lambda)) 
         outlist$lambda <- lamfix(outlist$lambda)
     class(outlist) <- c("msda")

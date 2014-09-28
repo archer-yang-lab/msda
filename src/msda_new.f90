@@ -229,13 +229,13 @@ SUBROUTINE msda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
             EXIT
         ENDIF
         IF(ni>0) theta(:,1:ni,l)=thetanew(:,m(1:ni))
+        me = count(maxval(abs(theta(:,1:ni,l)),dim=1)/=0.0D0)
+        IF(me>dfmax) EXIT
         ntheta(l)=ni
         alam(l)=al
         nalam=l
         IF (l < mnl) CYCLE
         IF (flmin >= 1.0D0) CYCLE
-        me = count(maxval(theta(:,1:ni,l),dim=1)/=0.0D0)
-        IF(me>dfmax) EXIT
     ENDDO
     RETURN
 END SUBROUTINE msda
