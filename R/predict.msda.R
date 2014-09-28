@@ -15,7 +15,7 @@ predict.msda <- function(obj, x) {
     nz<-sum(theta[[i]][,1]!=0)
     if(nz==0){pred[i]<-which.max(prior)}else{
       xfit<-x.train%*%theta[[i]][,1:(min(nclass-1,nz))]
-      l<-lda(xfit,y.train)
+      suppressWarnings(l<-lda(xfit,y.train))
       pred[,i]<-predict(l,x%*%theta[[i]][,1:(min(nclass-1,nz))])$class}
   }    
   pred
