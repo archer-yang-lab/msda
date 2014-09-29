@@ -19,9 +19,9 @@ cv.msda <- function(x, y, nfolds = 5, lambda = NULL, lambda.opt = "min", ...) {
     for (i in seq(nfolds)) {
         which <- foldid == i
 		cat("\nFold ", i, " is running.\n")
-        fitobj <- msda(x[!which, , drop = FALSE], y[!which], lambda = lambda)
-      	preds <- predict(fitobj,x[which,,drop=FALSE])
-       	nlami <- length(fitobj$lambda)
+        fit <- msda(x[!which, , drop = FALSE], y[!which], lambda = lambda, ...)
+      	preds <- predict(fit,x[which,,drop=FALSE])
+       	nlami <- length(fit$lambda)
         residmat[i,seq(nlami)] <- colMeans(y[which] != preds)
         good[i, seq(nlami)] <- 1
     }
