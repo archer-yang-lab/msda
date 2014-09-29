@@ -26,19 +26,19 @@ cv.msda <- function(x, y, nfolds = 5, lambda = NULL, lambda.opt = "min", ...) {
         good[i, seq(nlami)] <- 1
     }
     rN <- colSums(good)
-    cv <- colMeans(residmat, na.rm = TRUE)
-    cv.error <- sqrt(colMeans(scale(residmat, cv, FALSE)^2, na.rm = TRUE)/(rN - 1))
+    cvm <- colMeans(residmat, na.rm = TRUE)
+    cvsd <- sqrt(colMeans(scale(residmat, cvm, FALSE)^2, na.rm = TRUE)/(rN - 1))
     if (lambda.opt == "min") {
-        bestlambda <- min(lambda[which(cv == min(cv,na.rm=TRUE))])
+        lambda.min <- min(lambda[which(cvm == min(cvm,na.rm=TRUE))])
     } else {
-        bestlambda <- max(lambda[which(cv == min(cv,na.rm=TRUE))])
+        lambda.min <- max(lambda[which(cvm == min(cvm,na.rm=TRUE))])
     }
-    id.min<-which.min(cv)
-    lambda.1se<-max(lambda[cv<min(cv,na.rm=TRUE)+cv.error[id.min]],na.rm=TRUE)
-    cv <- na.omit(cv)
-    cv.error <- na.omit(cv.error)
-	min_len <- min(length(cv), length(cv.error))
-    obj <- list(lambda = lambda[1:min_len], cv = cv[1:min_len], cv.error = cv.error[1:min_len], bestlambda = bestlambda,lambda.1se=lambda.1se)
+    id.min<-which.min(cvm)
+    lambda.1se<-max(lambda[cvm<min(cvm,na.rm=TRUE)+cvsd[id.min]],na.rm=TRUE)
+    cvm <- na.omit(cvm)
+    cvsd <- na.omit(cvsd)
+	min_len <- min(length(cvm), length(cvsd))
+    obj <- list(lambda = lambda[1:min_len], cvm = cvm[1:min_len], cvsd = cvsd[1:min_len], lambda.min=lambda.min,lambda.1se=lambda.1se,msda.fit=tmp)
     class(obj) <- "cv.msda"
     obj
 } 

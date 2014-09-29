@@ -38,16 +38,11 @@ list with the ingredients of the cross-validation fit.
 		\item{cvm}{the mean cross-validated error - a vector of length
 		\code{length(lambda)}.}
 		\item{cvsd}{estimate of standard error of \code{cvm}.}
-		\item{cvupper}{upper curve = \code{cvm+cvsd}.}
-		\item{cvlower}{lower curve = \code{cvm-cvsd}.}
-		\item{nzero}{number of non-zero coefficients at each \code{lambda}.}
-		\item{name}{a text string indicating type of measure (for plotting
-		purposes).}
-		\item{gcdnet.fit}{a fitted \code{\link{gcdnet}} object for the full data.}
-		\item{lambda.min}{The optimal value of \code{lambda} that gives minimum
+		\item{lambda.min}{the optimal value of \code{lambda} that gives minimum
 		cross validation error \code{cvm}.}
-		\item{lambda.1se}{The largest value of \code{lambda} such that error is
+		\item{lambda.1se}{the largest value of \code{lambda} such that error is
 		within 1 standard error of the minimum.}
+		\item{msda.fit}{a fitted \code{\link{msda}} object for the full data.}
 }
 \references{
 
