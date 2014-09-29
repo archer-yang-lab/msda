@@ -99,17 +99,11 @@ msda.prep <- function(x, y) {
     outlist
 }
 
-# convert theta list into theta array
-# list2array <- function(thetaList) {
-#     nlambda <- length(thetaList)
-#     nvars <- nrow(thetaList[[1]])
-#     nk <- ncol(thetaList[[1]])
-#     thetaArray <- array(0, dim = c(nk, nvars, nlambda))
-#     for (l in 1:nlambda) {
-#         thetaArray[, , l] <- t(as.matrix(thetaList[[l]]))
-#     }
-#     thetaArray
-# }
+# convert theta list into theta array list2array <- function(thetaList)
+# { nlambda <- length(thetaList) nvars <- nrow(thetaList[[1]]) nk <-
+# ncol(thetaList[[1]]) thetaArray <- array(0, dim = c(nk, nvars,
+# nlambda)) for (l in 1:nlambda) { thetaArray[, , l] <-
+# t(as.matrix(thetaList[[l]])) } thetaArray }
 
 err <- function(n, maxit, pmax) {
     if (n == 0) 

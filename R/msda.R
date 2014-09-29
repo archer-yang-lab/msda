@@ -1,7 +1,7 @@
 # the main function
 msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <= 
-    nvars, 0.05, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 1.2, 
-	nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-06, 
+    nvars, 0.05, 1e-04), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 
+    1.2, nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-06, 
     verbose = FALSE, perturb = NULL) {
     ## data setup
     this.call <- match.call()
@@ -51,7 +51,8 @@ msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <=
         alam = double(nlam), npass = integer(1), jerr = integer(1))
     ## output
     outlist <- formatoutput(fit, maxit, pmax, nvars, vnames, nk)
-    outlist <- c(outlist, list(x = x, y = y, npasses = fit$npass, jerr = fit$jerr, sigma = sigma, delta = delta, mu = mu, prior = prior, call = this.call))
+    outlist <- c(outlist, list(x = x, y = y, npasses = fit$npass, jerr = fit$jerr, 
+        sigma = sigma, delta = delta, mu = mu, prior = prior, call = this.call))
     if (is.null(lambda)) 
         outlist$lambda <- lamfix(outlist$lambda)
     class(outlist) <- c("msda")
