@@ -7,35 +7,47 @@ Cross-validation for msda
 Does k-fold cross-validation for msda, returns a value for \code{lambda}.
 }
 \usage{
-cv.msda(x, y, nfolds = 10, lambda.opt = "min", ...)
+cv.msda(x, y, nfolds = 5, lambda = NULL, lambda.opt = "min", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-%%     ~~Describe \code{x} here~~
-}
+matrix of predictors, of dimension \eqn{N \times p}{N*p}; each row is an observation vector.}
   \item{y}{
-%%     ~~Describe \code{y} here~~
-}
+response variable. This argument should be a factor for classification.}
   \item{nfolds}{
-%%     ~~Describe \code{nfolds} here~~
-}
+	number of folds - default is 5. Although \code{nfolds}
+	can be as large as the sample size (leave-one-out CV), it is not
+	recommended for large datasets. Smallest value allowable is \code{nfolds=3}.}
+  \item{lambda}{optional user-supplied lambda sequence; default is
+	\code{NULL}, and \code{\link{msda}} chooses its own sequence.}
   \item{lambda.opt}{
 %%     ~~Describe \code{lambda.opt} here~~
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
+other arguments that can be passed to gcdnet.}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+The function runs \code{\link{msda}} \code{nfolds}+1 times; the
+first to get the \code{lambda} sequence, and then the remainder to
+compute the fit with each of the folds omitted. The average error and standard deviation over the folds are computed.}
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+an object of class \code{\link{cv.gcdnet}} is returned, which is a
+list with the ingredients of the cross-validation fit.
+		\item{lambda}{the values of \code{lambda} used in the fits.}
+		\item{cvm}{the mean cross-validated error - a vector of length
+		\code{length(lambda)}.}
+		\item{cvsd}{estimate of standard error of \code{cvm}.}
+		\item{cvupper}{upper curve = \code{cvm+cvsd}.}
+		\item{cvlower}{lower curve = \code{cvm-cvsd}.}
+		\item{nzero}{number of non-zero coefficients at each \code{lambda}.}
+		\item{name}{a text string indicating type of measure (for plotting
+		purposes).}
+		\item{gcdnet.fit}{a fitted \code{\link{gcdnet}} object for the full data.}
+		\item{lambda.min}{The optimal value of \code{lambda} that gives minimum
+		cross validation error \code{cvm}.}
+		\item{lambda.1se}{The largest value of \code{lambda} such that error is
+		within 1 standard error of the minimum.}
 }
 \references{
 
@@ -43,17 +55,13 @@ Mai, Q.*, Yang, Y.*, and Zou, H. (2014), "Multiclass Sparse Discriminant Analysi
 
 URL: \url{https://github.com/emeryyi/msda}\cr
 }
+
 \author{
 Qing Mai <mai@stat.fsu.edu>, Yi Yang <yiyang@umn.edu>,  Hui Zou <hzou@stat.umn.edu>\cr
 Maintainer: Yi Yang  <yiyang@umn.edu>}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{msda}}
+\code{\link{msda}}}
 \examples{
 ##---- Should be DIRECTLY executable !! ----
 ##-- ==>  Define data, use random,

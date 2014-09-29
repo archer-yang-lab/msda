@@ -1,12 +1,12 @@
-predict.msda <- function(obj, newx) {
-  theta<-obj$theta
-  mu<-obj$mu
-  prior<-obj$prior
+predict.msda <- function(object, newx) {
+  theta<-object$theta
+  mu<-object$mu
+  prior<-object$prior
   mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2
   n <- nrow(newx)
   p<-ncol(newx)
-  x.train<-obj$x
-  y.train<-obj$y
+  x.train<-object$x
+  y.train<-object$y
   nclass <- length(prior)
   nlambda <- length(theta)
   pred<-matrix(0,n,nlambda)
