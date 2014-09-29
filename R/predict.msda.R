@@ -1,10 +1,10 @@
-predict.msda <- function(obj, x) {
+predict.msda <- function(obj, newx) {
   theta<-obj$theta
   mu<-obj$mu
   prior<-obj$prior
   mubar <- sweep(mu[, -1], 1, mu[, 1], "+")/2
-  n <- nrow(x)
-  p<-ncol(x)
+  n <- nrow(newx)
+  p<-ncol(newx)
   x.train<-obj$x
   y.train<-obj$y
   nclass <- length(prior)
@@ -16,7 +16,7 @@ predict.msda <- function(obj, x) {
     if(nz==0){pred[i]<-which.max(prior)}else{
       xfit<-x.train%*%theta[[i]][,1:(min(nclass-1,nz))]
       l<-lda(xfit,y.train)
-      pred[,i]<-predict(l,x%*%theta[[i]][,1:(min(nclass-1,nz))])$class}
+      pred[,i]<-predict(l,newx%*%theta[[i]][,1:(min(nclass-1,nz))])$class}
   }    
   pred
 } 
