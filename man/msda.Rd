@@ -58,11 +58,21 @@ Note that for computing speed reason, if models are not converging or running sl
 \code{maxit}. Users can also reduce \code{dfmax} to limit the maximum number of variables in the model.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An object with S3 class \code{\link{msda}}.
+		\item{theta}{a list of length(lambda) for fitted coefficients theta, each one corresponding to one lambda value, each stored as a sparse matrix (\code{dgCMatrix} class, the standard class for sparse numeric matrices in the \code{Matrix} package.). To convert it into normal type matrix use \code{as.matrix()}.}
+		\item{df}{the number of nonzero coefficients for each value of
+		\code{lambda}.}
+		\item{dim}{dimension of each coefficient matrix at each lambda.}
+		\item{lambda}{the actual sequence of \code{lambda} values used.}
+		\item{x}{matrix of predictors.}
+		\item{y}{response variable.}
+		\item{npasses}{total number of iterations (the most inner loop) summed over all lambda values}
+		\item{jerr}{error flag, for warnings and errors, 0 if no error.}
+		\item{sigma}{estimated sigma matrix.}
+		\item{delta}{estimated delta matrix. delta[k] = mu[k]-mu[1].}
+		\item{mu}{estimated mu vector.}
+		\item{prior}{prior probability that y belong to class k, estimated by mean(y that belong to k).}
+		\item{call}{the call that produced this object}
 }
 \references{
 
@@ -73,9 +83,7 @@ URL: \url{https://github.com/emeryyi/msda}\cr
 \author{
 Qing Mai <mai@stat.fsu.edu>, Yi Yang <yiyang@umn.edu>,  Hui Zou <hzou@stat.umn.edu>\cr
 Maintainer: Yi Yang  <yiyang@umn.edu>}
-\note{
-%%  ~~further notes~~
-}
+
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

@@ -9,7 +9,6 @@ Does k-fold cross-validation for msda, returns a value for \code{lambda}.
 \usage{
 cv.msda(x, y, nfolds = 5, lambda = NULL, lambda.opt = "min", ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
 matrix of predictors, of dimension \eqn{N \times p}{N*p}; each row is an observation vector.}
@@ -21,18 +20,21 @@ response variable. This argument should be a factor for classification.}
 	recommended for large datasets. Smallest value allowable is \code{nfolds=3}.}
   \item{lambda}{optional user-supplied lambda sequence; default is
 	\code{NULL}, and \code{\link{msda}} chooses its own sequence.}
-  \item{lambda.opt}{
-%%     ~~Describe \code{lambda.opt} here~~
+  \item{lambda.opt}{If choose \code{"min"}, 
+	the smallest \code{lambda} that gives minimum
+	cross validation error \code{cvm} will be returned. If choose \code{"max"}, 
+		the largest \code{lambda} that gives minimum
+		cross validation error \code{cvm} will be returned.
 }
   \item{\dots}{
-other arguments that can be passed to gcdnet.}
+other arguments that can be passed to msda.}
 }
 \details{
 The function runs \code{\link{msda}} \code{nfolds}+1 times; the
 first to get the \code{lambda} sequence, and then the remainder to
 compute the fit with each of the folds omitted. The average error and standard deviation over the folds are computed.}
 \value{
-an object of class \code{\link{cv.gcdnet}} is returned, which is a
+an object of class \code{\link{cv.msda}} is returned, which is a
 list with the ingredients of the cross-validation fit.
 		\item{lambda}{the values of \code{lambda} used in the fits.}
 		\item{cvm}{the mean cross-validated error - a vector of length
@@ -63,7 +65,5 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 ##--	or do  help(data=index)  for the standard data sets.
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{models}
 \keyword{classification}
