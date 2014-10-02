@@ -14,7 +14,7 @@ cv.msda <- function(x, y, nfolds = 5, lambda = NULL, lambda.opt = "min",
     ### Now fit the nfold models and store them
     foldid <- sample(rep(seq(nfolds), length = n))
     if (nfolds < 3) 
-        stop("nfolds must be bigger than 3; nfolds=10 recommended")
+        stop("nfolds must be bigger than 3; nfolds=5 recommended")
     if (nfolds > n) 
         stop("The number of folds should be smaller than the sample size.")
     residmat <- matrix(NA, nfolds, length(lambda))

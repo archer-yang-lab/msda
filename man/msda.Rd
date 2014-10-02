@@ -90,12 +90,8 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 \seealso{\code{cv.msda}, \code{predict.msda}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-
+data(GDS1615)
+obj <- msda(x = x, y = y, lambda.factor=0.25, eps=1e-4,sml=1e-7,perturb=0,verbose=FALSE,nlambda=200)
 }
 \keyword{models}
 \keyword{classification}

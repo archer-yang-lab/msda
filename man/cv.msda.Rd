@@ -60,10 +60,11 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 \seealso{
 \code{\link{msda}}}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
+data(GDS1615)
+obj.cv<-cv.msda(x=x[,1:10],y=y,nfolds=5,lambda.opt="max")
+lambda.min<-obj.cv$lambda.min
+id.min<-which(obj.cv$lambda==lambda.min)
+pred<-predict(obj.cv$msda.fit,x[,1:10])[,id.min]
 }
 \keyword{models}
 \keyword{classification}
