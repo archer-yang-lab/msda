@@ -6,4 +6,5 @@ export(msda, cv.msda)
 
 S3method("predict","msda")
 
+S3method("plot","msda")
 

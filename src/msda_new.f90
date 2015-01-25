@@ -1,5 +1,5 @@
 ! --------------------------------------------------
-SUBROUTINE msda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
+SUBROUTINE msda(obj,nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
         eps,maxit,sml,verbose,nalam,theta,m,ntheta,alam,npass,jerr)
 ! --------------------------------------------------
     IMPLICIT NONE
@@ -29,6 +29,7 @@ SUBROUTINE msda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
     DOUBLE PRECISION::ulam(nlam)
     DOUBLE PRECISION::theta(nk,pmax,nlam)
     DOUBLE PRECISION::alam(nlam)
+    DOUBLE PRECISION::obj(nlam)
     ! - - - local declarations - - -
     INTEGER::mm(nvars)
     INTEGER::k
@@ -231,6 +232,7 @@ SUBROUTINE msda(nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
         IF(ni>0) theta(:,1:ni,l)=thetanew(:,m(1:ni))
         me = count(maxval(abs(theta(:,1:ni,l)),dim=1)/=0.0D0)
         IF(me>dfmax) EXIT
+        obj(l) = dev_new
         ntheta(l)=ni
         alam(l)=al
         nalam=l

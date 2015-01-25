@@ -45,7 +45,7 @@ msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <=
         nlam <- as.integer(length(lambda))
     }
     ## call Fortran core
-    fit <- .Fortran("msda", nk, nvars, as.double(sigma), as.double(delta), 
+    fit <- .Fortran("msda", obj = double(nlam), nk, nvars, as.double(sigma), as.double(delta), 
         pf, dfmax, pmax, nlam, flmin, ulam, eps, maxit, sml, verbose, nalam = integer(1), 
         theta = double(pmax * nk * nlam), itheta = integer(pmax), ntheta = integer(nlam), 
         alam = double(nlam), npass = integer(1), jerr = integer(1))

@@ -62,6 +62,8 @@ An object with S3 class \code{\link{msda}}.
 		\item{theta}{a list of length(lambda) for fitted coefficients theta, each one corresponding to one lambda value, each stored as a sparse matrix (\code{dgCMatrix} class, the standard class for sparse numeric matrices in the \code{Matrix} package.). To convert it into normal type matrix use \code{as.matrix()}.}
 		\item{df}{the number of nonzero coefficients for each value of
 		\code{lambda}.}
+		\item{obj}{the fitted value of the objective function for each value of
+		\code{lambda}.}
 		\item{dim}{dimension of each coefficient matrix at each lambda.}
 		\item{lambda}{the actual sequence of \code{lambda} values used.}
 		\item{x}{matrix of predictors.}

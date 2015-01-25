@@ -36,6 +36,7 @@ formatoutput <- function(fit, maxit, pmax, nvars, vnames, nk) {
     ntheta <- fit$ntheta[seq(nalam)]
     nthetamax <- max(ntheta)
     lam <- fit$alam[seq(nalam)]
+	obj <- fit$obj[seq(nalam)]
     stepnames <- paste("s", seq(nalam) - 1, sep = "")
     resnames <- paste("delta", seq(nk), sep = "")
     
@@ -66,7 +67,7 @@ formatoutput <- function(fit, maxit, pmax, nvars, vnames, nk) {
         }
         df <- rep(0, nalam)
     }
-    list(theta = theta, df = df, dim = dd, lambda = lam)
+    list(theta = theta, df = df, dim = dd, lambda = lam, obj = obj)
 }
 
 
