@@ -226,7 +226,7 @@ SUBROUTINE msda(obj,nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
         ENDDO
 !--- final update variable save results------------
         IF(ni>pmax) THEN
-!             jerr=-10000-l
+            jerr=-10000-l
             EXIT
         ENDIF
         IF(ni>0) theta(:,1:ni,l)=thetanew(:,m(1:ni))
