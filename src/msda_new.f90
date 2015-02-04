@@ -231,7 +231,10 @@ SUBROUTINE msda(obj,nk,nvars,sigma,delta,pf,dfmax,pmax,nlam,flmin,ulam,&
         ENDIF
         IF(ni>0) theta(:,1:ni,l)=thetanew(:,m(1:ni))
         me = count(maxval(abs(theta(:,1:ni,l)),dim=1)/=0.0D0)
-        IF(me>dfmax) EXIT
+        IF(me>dfmax) THEN
+			jerr=-20000-l
+			EXIT
+		ENDIF
         obj(l) = dev_new
         ntheta(l)=ni
         alam(l)=al

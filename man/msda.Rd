@@ -7,8 +7,8 @@ Fits a regularization path for Multi-class Sparse Discriminant Analysis at a seq
 }
 \usage{
 msda(x, y, nlambda = 100, 
-lambda.factor = ifelse((nobs - nclass) <= nvars, 0.05, 1e-04), 
-lambda = NULL, dfmax = nobs, pmax = min(dfmax * 1.2, nvars), 
+lambda.factor = ifelse((nobs - nclass) <= nvars, 0.05, 0.001), 
+lambda = NULL, dfmax = nobs, pmax = min(dfmax * 2 + 20, nvars), 
 pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-06, 
 verbose = FALSE, perturb = NULL)
 }

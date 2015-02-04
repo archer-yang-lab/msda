@@ -1,5 +1,10 @@
 CHANGELOG - Record of Changes for msda
 Please find below the list of the various changes and improvements that were part of each successive update.
 
+1.0.2:
+* [improved] Improved the cross validation function.
+* [improved] Improved the predict function.
+* [added] Added the fitted value of objective function as output in msda.R.
+
 1.0.1:
 * Initial release.

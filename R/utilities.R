@@ -116,11 +116,15 @@ err <- function(n, maxit, pmax) {
         # non fatal error
         if (n > -10000) 
             msg <- paste("Convergence for ", -n, "th lambda value not reached after maxit=", 
-                maxit, " iterations; solutions for larger lambdas returned", 
+                maxit, " iterations; solutions for larger lambdas returned.\n", 
                 sep = "")
         if (n < -10000) 
             msg <- paste("Number of nonzero coefficients along the path exceeds pmax=", 
-                pmax, " at ", -n - 10000, "th lambda value; solutions for larger lambdas returned", 
+                pmax, " at ", -n - 10000, "th lambda value; solutions for larger lambdas returned.\n", 
+                sep = "")
+        if (n < -20000) 
+            msg <- paste("Number of nonzero coefficients along the path exceeds dfmax=", 
+                pmax, " at ", -n - 20000, "th lambda value; solutions for larger lambdas returned.\n", 
                 sep = "")
         n <- -1
     }
