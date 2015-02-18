@@ -9,7 +9,7 @@
 The  dataset is a subset of the dataset available on Gene Expression Omnibus with the accession number GDS1615. The original dataset contains 22283 gene expression levels and the disease states of the observed subjects. In Mai, Yang and Zou, the dimension of the original dataset was first reduced to 127 by F-test screening.
 }
 \value{
-  This data frame contains the following columns:
+  This data frame contains the following:
     \item{x}{gene expression levels.}
     \item{y}{Disease state that is coded as 1,2,3. 1: normal; 2: ulcerative colitis; 3: Crohn's disease.}
 }

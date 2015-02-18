@@ -61,10 +61,12 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 \code{\link{msda}}}
 \examples{
 data(GDS1615)
-obj.cv<-cv.msda(x=x[,1:10],y=y,nfolds=5,lambda.opt="max")
+x<-GDS1615$x
+y<-GDS1615$y
+obj.cv<-cv.msda(x=x,y=y,nfolds=5,lambda.opt="max")
 lambda.min<-obj.cv$lambda.min
 id.min<-which(obj.cv$lambda==lambda.min)
-pred<-predict(obj.cv$msda.fit,x[,1:10])[,id.min]
+pred<-predict(obj.cv$msda.fit,x)[,id.min]
 }
 \keyword{models}
 \keyword{classification}

@@ -1,6 +1,6 @@
 # the main function
 msda <- function(x, y, nlambda = 100, lambda.factor = ifelse((nobs - nclass) <= 
-    nvars, 0.05, 1e-03), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 
+    nvars, 0.2, 1e-03), lambda = NULL, dfmax = nobs, pmax = min(dfmax * 
     2 + 20, nvars), pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-06, 
     verbose = FALSE, perturb = NULL) {
     ## data setup

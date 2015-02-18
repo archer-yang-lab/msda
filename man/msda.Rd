@@ -7,7 +7,7 @@ Fits a regularization path for Multi-class Sparse Discriminant Analysis at a seq
 }
 \usage{
 msda(x, y, nlambda = 100, 
-lambda.factor = ifelse((nobs - nclass) <= nvars, 0.05, 0.001), 
+lambda.factor = ifelse((nobs - nclass) <= nvars, 0.2, 0.001), 
 lambda = NULL, dfmax = nobs, pmax = min(dfmax * 2 + 20, nvars), 
 pf = rep(1, nvars), eps = 1e-04, maxit = 1e+06, sml = 1e-06, 
 verbose = FALSE, perturb = NULL)
@@ -19,7 +19,7 @@ verbose = FALSE, perturb = NULL)
   \item{nlambda}{the number of \code{lambda} values - default is 100.}
   \item{lambda.factor}{
 	The factor for getting the minimal lambda in \code{lambda} sequence, where \code{min(lambda)} = \code{lambda.factor} * \code{max(lambda)}.  \code{max(lambda)} is the smallest value of \code{lambda} for which all coefficients are zero. The default depends on the relationship between \eqn{N} (the number of rows in the matrix of predictors) and \eqn{p}{p} (the number of predictors). If \eqn{N > p}, the default is \code{0.0001},
-	close to zero.  If \eqn{N<p}, the default is \code{0.05}.
+	close to zero.  If \eqn{N<p}, the default is \code{0.2}.
 	A very small value of \code{lambda.factor} will lead to a saturated fit. It takes no effect if there is user-defined \code{lambda} sequence.}
   \item{lambda}{
 	a user supplied \code{lambda} sequence. Typically, by leaving this option unspecified users can have 
@@ -93,7 +93,9 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 }
 \examples{
 data(GDS1615)
-obj <- msda(x = x, y = y, lambda.factor=0.25, eps=1e-4,sml=1e-7,perturb=0,verbose=FALSE,nlambda=200)
+x<-GDS1615$x
+y<-GDS1615$y
+obj <- msda(x = x, y = y)
 }
 \keyword{models}
 \keyword{classification}

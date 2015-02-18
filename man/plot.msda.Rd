@@ -3,15 +3,15 @@
 \title{Plot coefficients from a "msda" object}
 \description{
 Produces a coefficient profile plot of the coefficient paths for a
-fitted \code{\link{msda}} object. This function is modified based on the \code{plot} function from the \code{glmnet} package.
+fitted \code{\link{msda}} object. 
 }
 \usage{
 \method{plot}{msda}(x, xvar = c("norm", "lambda"), ...)
 }
 \arguments{
 		\item{x}{fitted \code{\link{msda}} model}
-		\item{xvar}{what is on the X-axis. \code{"norm"} plots against the
-		L1-norm of the coefficients, \code{"lambda"} against the log-lambda
+		\item{xvar}{the variable on the X-axis. The option \code{"norm"} plots the coefficients against the
+		L1-norm of the coefficients, and the option \code{"lambda"} plots the coefficient against the log-lambda
 		sequence.}
 		\item{\dots}{other graphical parameters to plot}
 }
@@ -30,10 +30,12 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 
 \examples{
 data(GDS1615)
-obj <- msda(x = x, y = y, lambda.factor=0.25, eps=1e-4,sml=1e-7,perturb=0,verbose=FALSE,nlambda=200)
+x<-GDS1615$x
+y<-GDS1615$y
+obj <- msda(x = x, y = y)
 plot(obj)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{models}
-\keyword{regression}
+\keyword{classification}

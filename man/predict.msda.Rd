@@ -3,7 +3,7 @@
 \title{
 make predictions from a "msda" object.
 }
-\description{Similar to other predict methods, this functions predicts class labels from a fitted \code{\link{msda}} object.
+\description{This functions predicts class labels from a fitted \code{\link{msda}} object.
 
 }
 \usage{
@@ -34,7 +34,9 @@ Maintainer: Yi Yang  <yiyang@umn.edu>}
 \code{\link{msda}}}
 \examples{
 data(GDS1615)
-obj <- msda(x = x, y = y, lambda.factor=0.25, eps=1e-4,sml=1e-7,perturb=0,verbose=FALSE,nlambda=200)
+x<-GDS1615$x
+y<-GDS1615$y
+obj <- msda(x = x, y = y)
 pred<-predict(obj,x)
 }
 \keyword{models}
