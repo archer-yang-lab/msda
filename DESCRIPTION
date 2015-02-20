@@ -1,11 +1,11 @@
 Package: msda
-Title: Multi-class Sparse Discriminant Analysis
+Title: Multi-Class Sparse Discriminant Analysis
 Version: 1.0.2
 Date: 2014-09-26
 Author: Qing Mai <mai@stat.fsu.edu>, Yi Yang <yiyang@umn.edu>,  Hui Zou <hzou@stat.umn.edu>
 Maintainer: Yi Yang <yiyang@umn.edu>
 Depends: Matrix, MASS
-Description: Efficient procedures for computing a new multi-class sparse discriminant analysis method that estimates all discriminant directions simultaneously.
+Description: Efficient procedures for computing a new Multi-Class Sparse Discriminant Analysis method that estimates all discriminant directions simultaneously.
 LazyData: yes
 License: GPL-2
 URL: https://github.com/emeryyi/msda

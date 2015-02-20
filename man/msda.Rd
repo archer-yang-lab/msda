@@ -1,9 +1,9 @@
 \name{msda}
 \alias{msda}
 \title{
-Fits a regularization path for Multi-class Sparse Discriminant Analysis}
+Fits a regularization path for Multi-Class Sparse Discriminant Analysis}
 \description{
-Fits a regularization path for Multi-class Sparse Discriminant Analysis at a sequence of regularization parameters lambda.
+Fits a regularization path for Multi-Class Sparse Discriminant Analysis at a sequence of regularization parameters lambda.
 }
 \usage{
 msda(x, y, nlambda = 100, 
